@@ -1,1 +1,163 @@
+COMANDOS DE CONFIGURACION INICIAL SWITCH ICX RUCKUS 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+hostname VSERVER-SWXX
+ip address 10.X.X.X 255.255.X.X
+ip default-gateway 10.X.X.X
+crypto key generate rsa modulus 2048                          
+ip ssh key-exchange-method dh-group14-sha1
+username USERNAME password PASSWORD
+username USERNAME password PASSWORD
+aaa authentication enable default local                                               
+aaa authentication login default local                                                
+aaa authentication login privilege-mode 
+enable telnet authentication
+enable telnet password n3t0wrks
+password-change any  
+
+snmp-server community ..... ro
+snmp-server community ..... rw
+snmp-server contact soporte@gmail.com
+snmp-server location Site Piso -1
+
+clock summer-time zone gmt gmt-06 start 10-27-2019 end 5-4-2020
+clock timezone gmt gmt-06
+clock set HH:MM:SS 12-11-2019
+
+lldp run
+cdp run
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                   
+
+Configuracion SSH Switch Ruckus ICX
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+A) Habilitar ICX Switch SSH, Console , Web , Telnet , IP & Hostname  .
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+COMMANDS:
+
+Switch(config)# hostname VSERVER-SWXX
+Switch(config)# ip address 10.X.X.X 255.255.X.X
+Switch(config)# ip default-gateway 10.X.X.X
+Switch(config)# crypto key client generate { dsa | rsa [ modulus key-size ] }                         //Generates the crypto client key to enable SSH2.
+Switch(config)# ip ssh key-exchange-method dh-group14-sha1                                            //Configures diffie-hellman-group14-sha1 as the key-exchange method to establish an SSH connection
+Switch(config)# username username password password-string                                            //Creates a user record in the local user database.
+Switch(config)# aaa authentication web-server default local                                           //Configures the AAA authentication method to access the device through the Web Management Interface
+Switch(config)# aaa authentication enable default local                                               //Configures the AAA authentication method for securing access to the Privileged EXEC level and global configuration levels of the CLI.
+Switch(config)# aaa authentication login default local                                                //Configures the AAA authentication method for securing access to Telnet or SSH access to the CLI.
+Switch(config)# aaa authentication login privilege-mode                                               //Configures the AAA authentication method for securing access to Telnet or SSH access to the CLI.
+Switch(config)# enable aaa console                                                                    //Enables AAA support for commands entered at the console.
+Switch(config)# enable telnet authentication                                                          //Configures Telnet access control parameters
+Switch(config)# enable telnet password pass1                                                          //Specifies the password for the user. You can specify up to 29 characters
+Switch(config)# password-change any                                                                   //Restrict access methods with right to change password 
+
+
+
+EXAMPLE:
+
+hostname VSERVER-SWXX
+ip default-gateway 10.X.X.X
+crypto key generate rsa modulus 2048                          
+ip ssh key-exchange-method dh-group14-sha1
+username USERNAME password PASSWORD
+username USERNAME password PASSWORD
+aaa authentication enable default local                                               
+aaa authentication login default local                                                
+aaa authentication login privilege-mode 
+enable telnet authentication
+enable telnet password n3t0wrks
+password-change any    
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+B) Habilitar SNMP  .
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+COMMANDS:
+
+Switch(config)# snmp-server community community-string { ro | rw } [ acl-name | acl-num | ipv6 ipv6-acl-name | view [ mib-view ] ]   //Configures the SNMP community string and access privileges.
+Switch(config)# snmp-server contact string                                                                                           //Configures the identification of the contact person for the managed node
+Switch(config)# snmp-server location string                                                                                          //Configures the SNMP server location.
+EXAMPLE:
+
+snmp-server community ..... ro
+snmp-server community ..... rw
+snmp-server contact  soporte@gmail.com
+snmp-server location Site Piso -1 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                   
+
+
+C) NTP  .
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+COMMANDS:
+
+Switch(config)# clock timezone { australia australia-time | europe europe-time | gmt gmt-time | us us-time }                         //Sets the device system clock time zone options using either Greenwich Mean time (GMT)
+Switch(config)# clock summer-time [ zone { australia australia-time | europe europe-time | gmt gmt-time | us us-time } start mm-dd-yy hh:mm:ss end mm-dd-yy hh:mm:ss ] [ offset offset-value ]    //Sets the device clock summer-time and time zone options.
+Switch(config)#clock set 07:18:00 12-11-2019
+Switch(config)#ntp
+Switch(config-ntp)#disable authenticate md5
+Switch(config-ntp)#server 200.160.0.8
+
+
+
+EXAMPLE:
+
+
+clock summer-time zone gmt gmt-06 start 10-27-2019 end 5-4-2020
+clock timezone gmt gmt-06
+clock set 07:18:00 12-11-2019
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                   
+
+
+COMANDOS DE CONFIGURACION INICIAL SWITCH ICX RUCKUS 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+hostname VSERVER-SWXX
+ip address 10.X.X.X 255.255.X.X
+ip default-gateway 10.X.X.X
+crypto key generate rsa modulus 2048                          
+ip ssh key-exchange-method dh-group14-sha1
+username USERNAME password PASSWORD
+username USERNAME password PASSWORD
+aaa authentication enable default local                                               
+aaa authentication login default local                                                
+aaa authentication login privilege-mode 
+enable telnet authentication
+enable telnet password n3t0wrks
+password-change any  
+
+snmp-server community ..... ro
+snmp-server community ..... rw
+snmp-server contact  soporte@gmail.com
+snmp-server location Site Piso -1
+
+clock summer-time zone gmt gmt-06 start 10-27-2019 end 5-4-2020
+clock timezone gmt gmt-06
+clock set 07:18:00 12-11-2019
+
+lldp run
+cdp run
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                                   
+
+
+
+
+
 
