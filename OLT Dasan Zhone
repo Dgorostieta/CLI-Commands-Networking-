@@ -1,0 +1,147 @@
+COMANDOS DE OLT
+TELEFONIA ANALOGICA
+
+cpe-mgr show local 1-1-4-519
+
+///////////////////////VOIP//////////////////////////////////
+cpe voip add 1/1/17/1 admin-state up dial-number 10126 password faxv2019* username 10126 voip-server-profile 2
+
+cpe voip add 3/4/7/1 admin-state up dial-number 10572 username 10572 password 120118 voip-server-profile 1 voip-media-profile 2
+
+bridge add 1-1-1-1/gpononu gtp 5 tls vlan x sip rg-bridged
+
+cpe show 1-1-3-1 
+
+cpe voip delete 1/5/6/1
+
+gpononu gemports  1/6
+
+FAXV
+faxv2019*
+FAXS
+faxs2502
+FACC
+120118
+
+-------------------------------------------------------------------------------------------------
+////////////////UPTIME////////////////
+SLOTS
+SLOTS A
+
+
+
+/////////////BORRAR ONT ////////////////////////
+onu delete X-X-X-X
+
+/////////////AGREGAR ONT////////////////////////
+onu show 1/X
+
+
+onu set 1/4/8 [ID] meprof zhone-2625p
+
+///////////////////PERFIL PARA ADMINISTRACION//////////////
+Cpe-mgr add local 1-1-4-508/gponport gtp 512
+
+Cuando agregas una ont la debes agregar al administrador. Una vez agregada ahí, le otorga una ip y puedes entrar a ella por telnet o por web
+También te sirve para agregar perfiles para el power
+
+-------------------------------------------------------------------------------------------------
+
+////////////////////////// PERDIL PARA LA ENERGIA////////////////////////////
+
+PARA AGREGAR LA ONT AL PERFIL
+
+Nimbus#  cpe system add 1/2/24 sys-common-profile 2
+
+PARA VISUALIZAR LAS ONT SOBRE EL PERFIL
+
+Nimbus# cpe system show all 
+
+
+PARA AGREGAR EL PUERTO DE LA ONT AL PERFIL DE POTENCIA
+
+Nimbus# cpe eth add 1/2/24/2 power-range custom custom-power-range 11
+
+x / x / Numero ONT / Numero de Puerto Eth
+
+PARA VISUALIZAR EL PERFIL SOBRE EL PUERTO
+
+Nimbus# cpe eth show all 
+
+//////////////////////////////////////////////////////////////////////////////
+
+
+///////////////REINICIAR LA OLT//////////////////
+
+systemreboot
+
+1-Estas seguro = yes
+2-Salir de la operacion=no
+3-Estas seguro =yes
+
+
+
+
+
+/////////////No VLANS////////////////////////////
+2 TLS VoIP / vlan 300
+2048 TLS /SMTV vlan 200   
+102400 TLS - GUEST vlan 100
+5 TLS -MGMT 
+live gpo trafig traffig profile 
+gp - 
+////////////AGREGAR VLAN/////////////////////////
+
+BRIDGE MODE ACCESS
+
+bridge add 1-1-7-23/gpononu gtp 5 tls vlan 50 tagged eth 1 rg-bridged
+
+BRIDGE MODE TRUNK
+
+
+bridge add 1-1-7-23/gpononu gtp 5 tls vlan 50 tagged eth 1 uni-vlan 50 rg-bridged
+
+BRIDGE DE VIDEO PARA CAST
+
+Bridge add 1-1-1-1/gpononu gtp 2048 downlink vlan 200 tagged video 0/4 eth 1 uni-vlan 200 rg-bridged
+
+BRIDGE PARA ETH TARJETA UPLINK
+
+Bridge add 1-1-2-0/eth tls vlan 300 tagged
+
+BRIDGE PARA POT
+
+Bridge add 1-1-1-1/gpononu gtp 5 tls vlan 201 tagged sip rg-bridged
+
+
+////////////BORRAR VLAN /////////////////////////
+
+bridge delete 1-1-6-279-gponport-50/bridge [all / interface eth]
+
+
+////////////DESCARGAR BAKCUP///////////////////
+LINUX PWD // CD // DIR
+
+/card1/datastor
+
+file upload [IP TFTP] [infotbl.v9] [NOMBRE A PONER AL ARCHIVO(infotbl.v9)]
+
+////////////CARGAR BAKCUP///////////////////
+LINUX PWD // CD // DIR
+
+/card1/datastor
+
+file download [IP TFTP] [infotbl.v9] [NOMBRE A PONER AL ARCHIVO(infotbl.v9)]
+
+
+////////////PUERTO EN ACCESS/////////////////
+
+
+bridge add 1-1-7-23/gpononu gtp 5 tls vlan 50 tagged
+
+//////////////
+
+FALC_OLT> cpe eth add 1/1/2/1 power-range custom custom-power-range 11
+ cpe eth show all
+
+cpe-mgr show local 1-1-4-519 (nos muestra el puerto http para acceso web) ( se d
