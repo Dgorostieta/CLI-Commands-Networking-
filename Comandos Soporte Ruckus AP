@@ -10,6 +10,8 @@ Verify WLAN/SSID interfaces and status (edited for UP only)
 
 
             rkscli: get eth
+             
+            get netstats eth0
 
 Verify Client statistics per radio
 
@@ -19,6 +21,13 @@ Verify Client data:
 
              get client-info wlan32
 
+Verify Client statistics per radio
+
+             get station wlan0 stats all  Client is on 2.4 GHz wlan0
+             
+             get station wlan32 stats all    Client on 5GHz wlan32
+              
 Verify Media Queue for dropped packets - 0 under ovrflw (overflow) indicates no packets are being dropped on Tx
 
              get mqstats wlan32 all"
+
