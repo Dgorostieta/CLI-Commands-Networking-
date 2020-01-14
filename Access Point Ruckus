@@ -24,3 +24,8 @@ get station <wlan name> [list|info|stats] {all|<mac-addr>}
 list: List stations associated to the WLAN.
 info: Display station information.
 stats: Display station statistics.
+
+# Interfaces Eth #
+
+get eth
+
