@@ -1,1 +1,18 @@
+# CODIGO DE PAIS #
+set countrycode EC
 
+# SSID SOBRE VLAN DEFAULT # 
+set ssid wlan0 WIFINH
+set state wlan0 up
+set interface wlan0 type access untag 1
+
+# SSID SOBRE VLAN DEFAULT # 
+set ssid wlan8 WIFINH
+set state wlan8 up
+set interface wlan8 type access untag 1
+
+# CANALES #
+set cwmode wlan0 0
+set channel wlan0 1
+set cwmode wlan8 4
+set channel wlan8 36
