@@ -1,0 +1,24 @@
+Verify AP Health:
+
+            rkscli: sysinfo
+
+Verify Ethernet Connectivity:
+
+            rkscli: get uptime
+
+Verify WLAN/SSID interfaces and status (edited for UP only)
+
+
+            rkscli: get eth
+
+Verify Client statistics per radio
+
+            rkscli: get wlanlist
+
+Verify Client data:
+
+             get client-info wlan32
+
+Verify Media Queue for dropped packets - 0 under ovrflw (overflow) indicates no packets are being dropped on Tx
+
+             get mqstats wlan32 all"
