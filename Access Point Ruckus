@@ -16,3 +16,11 @@ set cwmode wlan0 0
 set channel wlan0 1
 set cwmode wlan8 4
 set channel wlan8 36
+
+# CLIENTES EN EL ACCESS POINT #
+
+get station <wlan name> [list|info|stats] {all|<mac-addr>}
+
+list: List stations associated to the WLAN.
+info: Display station information.
+stats: Display station statistics.
