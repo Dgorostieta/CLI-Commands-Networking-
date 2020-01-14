@@ -1,31 +1,34 @@
 # CODIGO DE PAIS #
-set countrycode EC
+      set countrycode EC
 
 # SSID SOBRE VLAN DEFAULT # 
-set ssid wlan0 WIFINH
-set state wlan0 up
-set interface wlan0 type access untag 1
+      set ssid wlan0 WIFINH
+      set state wlan0 up
+      set interface wlan0 type access untag 1
 
 # SSID SOBRE VLAN DEFAULT # 
-set ssid wlan8 WIFINH
-set state wlan8 up
-set interface wlan8 type access untag 1
+      set ssid wlan8 WIFINH
+      set state wlan8 up
+      set interface wlan8 type access untag 1
 
 # CANALES #
-set cwmode wlan0 0
-set channel wlan0 1
-set cwmode wlan8 4
-set channel wlan8 36
+      set cwmode wlan0 0
+      set channel wlan0 1
+      set cwmode wlan8 4
+      set channel wlan8 36
 
 # CLIENTES EN EL ACCESS POINT #
 
-get station <wlan name> [list|info|stats] {all|<mac-addr>}
+      get station <wlan name> [list|info|stats] {all|<mac-addr>}
 
-list: List stations associated to the WLAN.
-info: Display station information.
-stats: Display station statistics.
+      list: List stations associated to the WLAN.
+      info: Display station information.
+      stats: Display station statistics.
 
 # Interfaces Eth #
 
-get eth
+       get eth
 
+# SET IP ADDRESS#
+
+       set ipaddr wan  <ipaddr> <netmask> <gateway>
