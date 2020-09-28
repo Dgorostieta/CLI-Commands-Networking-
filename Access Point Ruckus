@@ -32,3 +32,11 @@
 # SET IP ADDRESS#
 
        set ipaddr wan  <ipaddr> <netmask> <gateway>
+
+# Show Vsz IP
+get scg
+-Use get scg to display SCG Settings.
+
+# Set Vsz IP
+set scg ip “IP Address”
+-Use set scg ip to set the IP Address of the control interface.
