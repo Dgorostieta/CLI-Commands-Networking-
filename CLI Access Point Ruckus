@@ -1,4 +1,0 @@
- SSH into the Access point through Putty or any SSH application.
-
-
- rkscli: set ipaddr wan  <ipaddr> <netmask> <gateway>
