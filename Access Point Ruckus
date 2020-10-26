@@ -40,3 +40,22 @@ get scg
 # Set Vsz IP
 set scg ip “IP Address”
 -Use set scg ip to set the IP Address of the control interface.
+
+
+
+FTP:
+fw set host <FTP server IP address> 
+fw set proto ftp
+fw set user <FTP username>
+fw set password <FTP password>
+fw set control <image file name>
+fw update 
+reboot
+
+TFTP:
+fw set host <TFTP server IP address> 
+fw set proto tftp
+fw set port 69
+fw set control <image file name>
+fw update 
+reboot
