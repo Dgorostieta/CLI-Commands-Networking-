@@ -59,3 +59,5 @@ fw set port 69
 fw set control <image file name>
 fw update 
 reboot
+
+fw show
