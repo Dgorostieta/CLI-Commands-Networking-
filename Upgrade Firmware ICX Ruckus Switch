@@ -1,0 +1,13 @@
+##########################Software Upgrade Procedure Overview
+
+
+#Determining the Current Flash Image Version
+        device# show flash
+
+#Determining the Current Flash and Boot Image Versions
+        device# show version
+        
+
+
+##########################Upgrade Process
+
