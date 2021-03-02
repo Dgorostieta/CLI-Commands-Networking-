@@ -1,0 +1,60 @@
+Configure Interface Gigabit Ethernet
+# conf t
+
+# interface gig 0.2401
+# encapsulation dot1q 2401 native
+
+# interface gig 0.2402
+# encapsulation dot1q 2402
+# bridge-group 242
+
+# interface gig 0.2403
+# encapsulation dot1q 2403
+# bridge-group 243
+
+Configure Interface Radio 802.11a 
+
+# interface dot11radio 1.2401
+# encapsulation dot1q 2401 native
+ 
+# interface dot11radio 1.2402
+# encapsulation dot1q 2402
+# bridge-group 242
+
+# interface dot11radio 1.2403
+# encapsulation dot1q 2403
+# bridge-group 243
+
+Configure Switch VLAN
+
+# conf t
+# vlan 2401-2403
+
+   
+
+Configure the interface where the AP is connected:
+
+# conf t
+# interface <port-id-where-AP-is-connected>
+# switchport trunk encapsulation dot1q
+# switchport mode trunk
+# switchport trunk native vlan 2401
+# switchport trunk allowed vlan 2401-2403
+# spanning-tree portfast trunk
+
+SSID Open Authentication - AP's Native VLAN
+
+This SSID does not have security, it is broadcasted (visible to clients) and the wireless clients that joins the WLAN are assigned to the native VLAN.
+
+Step 1. Configure the SSID.
+
+# dot11 ssid OPEN
+# authentication open
+# guest-mode
+
+   
+
+Step 2. Assign the SSID to the 802.11b radio.
+
+# interface dot11radio 0
+# ssid OPEN
