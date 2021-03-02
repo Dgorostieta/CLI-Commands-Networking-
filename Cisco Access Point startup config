@@ -1,0 +1,184 @@
+Building configuration...
+
+Current configuration : 4174 bytes
+!
+version 12.4
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname SCLFPAP113
+!
+logging rate-limit console 9
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local
+!
+aaa session-id common
+no ip domain lookup
+!
+!
+dot11 syslog
+dot11 vlan-name CONFERENCE vlan 1025
+dot11 vlan-name vlan100 vlan 100
+dot11 vlan-name vlan1000 vlan 1000
+!
+dot11 ssid FourPoints_GUEST
+   vlan 1000
+   authentication open
+   guest-mode
+   mobility network-id 1000
+!
+dot11 ssid MarriottBonvoy_Conference
+   vlan 1025
+   authentication open
+   mobility network-id 1025
+!
+dot11 network-map
+!
+!
+username n1mbu5 privilege 15 password 7 082F1F5A1E49171C01
+!
+!
+bridge irb
+!
+!
+interface Dot11Radio0
+ description Radio
+ no ip address
+ no ip route-cache
+ !
+ ssid FourPoints_GUEST
+ !
+ antenna gain 0
+ speed  basic-1.0 basic-2.0 basic-5.5 11.0 basic-6.0 basic-9.0 12.0 18.0 24.0 36.0 48.0 54.0 m0. m1. m2. m3. m4. m5. m6. m7. m8. m9. m10. m11. m12. m13. m14. m15.
+ channel 2437
+ station-role root
+ no dot11 extension aironet
+!
+interface Dot11Radio0.100
+ encapsulation dot1Q 100 native
+ no ip route-cache
+ bridge-group 1
+ bridge-group 1 subscriber-loop-control
+ bridge-group 1 block-unknown-source
+ no bridge-group 1 source-learning
+ no bridge-group 1 unicast-flooding
+ bridge-group 1 spanning-disabled
+!
+interface Dot11Radio0.1000
+ encapsulation dot1Q 1000
+ no ip route-cache
+ bridge-group 255
+ bridge-group 255 subscriber-loop-control
+ bridge-group 255 block-unknown-source
+ no bridge-group 255 source-learning
+ no bridge-group 255 unicast-flooding
+ bridge-group 255 spanning-disabled
+!
+interface Dot11Radio0.1025
+ encapsulation dot1Q 1025
+ no ip route-cache
+ bridge-group 254
+ bridge-group 254 subscriber-loop-control
+ bridge-group 254 block-unknown-source
+ no bridge-group 254 source-learning
+ no bridge-group 254 unicast-flooding
+ bridge-group 254 spanning-disabled
+!
+interface Dot11Radio1
+ description Radio
+ no ip address
+ no ip route-cache
+ antenna gain 0
+ dfs band 3 block
+ speed  6.0 9.0 12.0 18.0 basic-24.0 basic-36.0 basic-48.0 basic-54.0 m0. m1. m2. m3. m4. m5. m6.
+ channel width 40-above
+ channel dfs
+ station-role root
+ no dot11 extension aironet
+!
+interface Dot11Radio1.100
+ encapsulation dot1Q 100 native
+ no ip route-cache
+ bridge-group 1
+ bridge-group 1 subscriber-loop-control
+ bridge-group 1 block-unknown-source
+ no bridge-group 1 source-learning
+ no bridge-group 1 unicast-flooding
+ bridge-group 1 spanning-disabled
+!
+interface Dot11Radio1.1000
+ encapsulation dot1Q 1000
+ no ip route-cache
+ bridge-group 255
+ bridge-group 255 subscriber-loop-control
+ bridge-group 255 block-unknown-source
+ no bridge-group 255 source-learning
+ no bridge-group 255 unicast-flooding
+ bridge-group 255 spanning-disabled
+!
+interface Dot11Radio1.1025
+ encapsulation dot1Q 1025
+ no ip route-cache
+ bridge-group 254
+ bridge-group 254 subscriber-loop-control
+ bridge-group 254 block-unknown-source
+ no bridge-group 254 source-learning
+ no bridge-group 254 unicast-flooding
+ bridge-group 254 spanning-disabled
+!
+interface GigabitEthernet0
+ description Piso 4 Sur
+ no ip address
+ no ip route-cache
+ duplex full
+ speed 100
+ no keepalive
+!
+interface GigabitEthernet0.100
+ encapsulation dot1Q 100 native
+ no ip route-cache
+ bridge-group 1
+ no bridge-group 1 source-learning
+ bridge-group 1 spanning-disabled
+!
+interface GigabitEthernet0.1000
+ encapsulation dot1Q 1000
+ no ip route-cache
+ bridge-group 255
+ no bridge-group 255 source-learning
+ bridge-group 255 spanning-disabled
+!
+interface GigabitEthernet0.1025
+ encapsulation dot1Q 1025
+ no ip route-cache
+ bridge-group 254
+ no bridge-group 254 source-learning
+ bridge-group 254 spanning-disabled
+!
+interface BVI1
+ description IP ADMIN
+ ip address 192.168.180.113 255.255.255.0
+ no ip route-cache
+!
+ip default-gateway 192.168.180.1
+ip http server
+ip http authentication aaa
+no ip http secure-server
+ip http help-path http://www.cisco.com/warp/public/779/smbiz/prodconfig/help/eag
+snmp-server community gocloud1 RW
+bridge 1 route ip
+!
+!
+!
+line con 0
+ password 7 02000B4E19545F701E1F5B4A
+line vty 0 4
+ password 7 1048060C1745425A5E557878
+!
+end
