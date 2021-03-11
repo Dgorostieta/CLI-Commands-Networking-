@@ -11,3 +11,40 @@
 
 ##########################Upgrade Process
 
+1-Copy the 08.0.80f non-UFI from the TFTP server into flash memory using the copy tftpflash command.
+
+              ICX7250-48#copy tftp flash 10.176.6.93 SPR08080f.bin primary
+
+2-Copy the bootrom images using the following command
+
+              ICX7250-48#copy tftp flash 10.176.6.93 spz10114.bin bootrom
+        
+3-Reboot the device with the 08.0.80f image using the boot system command.
+        
+              ICX7250-48# boot system flash primary
+        
+4-Enter the show version command to display the flash image running on the device
+
+              ICX7250-48# show version
+              
+5-Copy the 08.0.91 UFI from the TFTP server into flash memory using the copy tftpflash command
+
+              ICX7250-48#copy tftp flash 10.176.6.93 SPR08091ufi.bin primary
+              
+6-Save the running configuration to startup configuration using the write memory command
+
+                ICX7250-48# write memory
+                
+7- Reboot the device with the 08.0.91 UFI image using the boot system flash primary command.ICX7250-48 Router# boot system flash primary
+                
+          ICX7250-48# boot system flash primary      
+         
+9. Re-copy the 08.0.91 UFI to the secondary flashpartition to avoid boot image mismatch
+
+          ICX7250-48# copy tftp flash 10.176.6.93 SPR08091ufi.bin secondary
+                
+                
+10- Enter the show version command to display the flash image running on the device
+                
+                ICX7250-48 Router# show flash
+
