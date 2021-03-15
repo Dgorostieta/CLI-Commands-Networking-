@@ -1,4 +1,12 @@
 COMANDOS DE OLT
+VERIFICACION DE LA OLT
+
+OLT#  gponolt show port
+
+OLT#  interface show
+
+
+
 TELEFONIA ANALOGICA
 
 cpe-mgr show local 1-1-4-519
