@@ -1,6 +1,302 @@
 
 
-                                 ======= WELCOME ======
+                              Configure VLAN-Switch and AP
+
+Configure the required VLANs on both the AP and switch. These are the VLANs used in this example:
+
+    VLAN 2401 (Native)
+    VLAN 2402
+    VLAN 2403
+
+Configure APs and VLANs
+
+Configure Interface Gigabit Ethernet
+
+# conf t
+
+# interface gig 0.2401
+# encapsulation dot1q 2401 native
+
+# interface gig 0.2402
+# encapsulation dot1q 2402
+# bridge-group 242
+
+# interface gig 0.2403
+# encapsulation dot1q 2403
+# bridge-group 243
+
+Configure Interface Radio 802.11a 
+
+# interface dot11radio 1.2401
+# encapsulation dot1q 2401 native
+ 
+# interface dot11radio 1.2402
+# encapsulation dot1q 2402
+# bridge-group 242
+
+# interface dot11radio 1.2403
+# encapsulation dot1q 2403
+# bridge-group 243
+
+Note: 802.11b radio (interface dot11radio 0) is not configured, as it uses the native VLAN of the AP.
+Configure Switch VLAN
+
+# conf t
+# vlan 2401-2403
+
+   
+
+Configure the interface where the AP is connected:
+
+# conf t
+# interface <port-id-where-AP-is-connected>
+# switchport trunk encapsulation dot1q
+# switchport mode trunk
+# switchport trunk native vlan 2401
+# switchport trunk allowed vlan 2401-2403
+# spanning-tree portfast trunk
+
+SSID Open Authentication - AP's Native VLAN
+
+This SSID does not have security, it is broadcasted (visible to clients) and the wireless clients that joins the WLAN are assigned to the native VLAN.
+
+Step 1. Configure the SSID.
+
+# dot11 ssid OPEN
+# authentication open
+# guest-mode
+
+   
+
+Step 2. Assign the SSID to the 802.11b radio.
+
+# interface dot11radio 0
+# ssid OPEN
+
+SSID 802.1x - Internal RADIUS
+
+This SSID uses the AP as RADIUS server. Be aware that AP as RADIUS server only supports LEAP, EAP-FAST and MAC authentication.
+
+Step 1. Enable AP as radius server.
+
+The Network Access Server(NAS) IP address is the AP's BVI, as this IP address is the one that sends the authentication request to itself. Also, create a username and password.
+
+# aaa new-model
+# radius-server local
+# nas <a.b.c.d> key 0 <shared-key>
+# user <username> password 0 <password>
+
+   
+
+Step 2. Configure the RADIUS server to which the AP sends the authentication request, as it is local RADIUS, the IP address is the one assigned to AP's Bridge Vitrual Interface (BVI).
+
+# radius server <radius-server-name>
+# address ipv4 <a.b.c.d> auth-port 1812 acct-port 1813
+# timeout 10
+# retransmit 3
+# key 0 <shared-key>
+
+   
+
+Step 3. Assign this RADIUS server to a radius group.   
+
+# aaa group server radius <radius-group>
+# server name <radius-server-name>
+
+   
+
+Step 4. Assign this radius group to an authentication method.
+
+# aaa authentication login <eap-method-name> group <radius-group>  
+
+ 
+
+Step 5. Create the SSID, assign it to VLAN 2402.
+
+#  dot11 ssid internal-radius
+#  vlan 2402
+#  authentication open eap <eap-method-name>
+#  authentication network-eap <eap-method-name>
+#  authentication key-management wpa version 2
+#  mbssid guest-mode
+
+   
+
+Step 6. Assign the ssid to the interface 802.11a and specify the cipher mode.  
+
+# interface dot11radio 1
+# mbssid
+# encryption vlan 2402 mode ciphers aes-ccm
+# ssid internal-radius
+
+SSID 802.1x - External RADIUS
+
+The configuration is almost the same as Internal RADIUS.
+
+Step 1. Configure aaa new-model.
+
+Step 2, Instead of the AP's IP address, use the external RADIUS IP address.
+
+  
+SSID - PSK
+
+This SSID uses security WPA2/PSK and users on this SSID are assigned to VLAN 2402.
+
+Step 1. Configure the SSID.
+
+# conf t
+# dot11 ssid PSK-ex
+# authentication open
+# authentication key-management wpa version 2
+# wpa-psk ascii 0 <password>
+# mbssid guest-mode
+# vlan 2402
+
+   
+
+Step 2. Assign the SSID to the radio interface and configure the cipher mode.  
+
+# interface dot11radio 1
+# encryption vlan 2402 mode ciphers aes-ccm
+# ssid PSK-ex
+
+SSID - MAC Address Authentication
+
+This SSID authenticates the wireless clients based on their MAC address. It uses the MAC address as username/password. In this example the AP acts as local RADIUS, so the AP stores  the MAC address list. The same configuration can be applied with external RADIUS server.
+
+Step 1. Enable AP as RADIUS server. The NAS IP address is the AP's BVI. Create the entry for the client with MAC address aaaabbbbcccc.
+
+# aaa new-model
+# radius-server local
+# nas <a.b.c.d> key 0 <shared-key>
+# user aaaabbbbcccc password 0 aaaabbbbcccc mac-auth-only
+
+ 
+
+Step 2. Configure the RADIUS server to which the AP sends the authentication request (it is the AP itself).   
+
+# radius server <radius-server-name>
+# address ipv4 <a.b.c.d> auth-port 1812 acct-port 1813
+# timeout 10
+# retransmit 3
+# key 0 <shared-key>
+
+Step 3. Assign this RADIUS server to a radius group.
+
+# aaa group server radius <radius-group>
+# server name <radius-server-name>
+
+   
+
+Step 4. Assign this radius group to an authentication method.  
+
+# aaa authentication login <mac-method> group <radius-group>
+
+Step 5. Create the SSID, this example assigns it to VLAN 2402.
+
+#  dot11 ssid mac-auth
+#  vlan 2402
+#  authentication open mac-address <mac-method>
+#  mbssid guest-mode
+
+Step 6. Assign the SSID to the interface 802.11a.  
+
+# interface dot11radio 1
+# mbssid
+# ssid mac-auth
+
+SSID - Internal Web Authentication
+
+Users that connect to this SSID are redirected to a web authentication portal to enter a valid username/password, if authentication is successful, they have access to the network. In this example, the users are stored on the local RADIUS server.
+
+In this example, the SSID is assigned to VLAN 2403.
+
+Step 1. Enable AP as RADIUS server. The NAS IP address is the AP's BVI.  
+
+# aaa new-model
+# radius-server local
+# nas <a.b.c.d> key 0 <shared-key>
+
+   
+
+Step 2. Configure the RADIUS server to which the AP sends the authentication request (it is the AP itself).  
+
+# radius server <radius-name>
+# address ipv4 <a.b.c.d> auth-port 1812 acct-port 1813
+# timeout 10
+# retransmit 3
+# key 0 <shared-key>
+
+   
+
+Step 3. Assign this radius server to a radius group.   
+
+# aaa group server radius <radius-group>
+# server name <radius-name>
+
+Step 4. Assign this radius group to an authentication method.  
+
+# aaa authentication login <web-method> group <radius-group>
+
+   
+
+Step 5. Create the admission policies.   
+
+# ip admission name webauth-pol proxy http
+# ip admission name webauth-pol method-list authentication <web-method>
+
+   
+
+Step 6. Configure the SSID.   
+
+# conf t
+# dot11 ssid webauth-autonomous
+# authentication open
+# web-auth
+# vlan 2403
+# mbssid guest-mode
+
+ 
+
+Step 7. Assign the SSID to the interface.  
+
+# conf t
+# int dot11radio 1
+# ssid webauth-autonomous
+
+   
+
+Step 8. Assign the policy to the right sub-interface.   
+
+# conf t
+# int dot11radio 1.2403
+# ip admission webauth-pol
+
+   
+
+Note: If the SSID works on the native, then the policy is applied directly to the interface, not to the sub-interface (dot11radio 0 or dot11radio 1).
+
+Step 9. Create the username/password for the guest users.  
+
+# conf t
+# dot11 guest
+# username <username> lifetime 35000 password <password>
+
+SSID - Web Pass-Through
+
+When a client connects to an SSID with Web Pass-through configuration, it will be redirected to a web portal to accept the terms & conditions of the network usage, if not, the user will not be able to use the service.
+
+This example assigns the SSID to the native VLAN.
+
+Step 1. Create the admission policy.
+
+# config t
+# ip admission name web-passth consent
+
+Step 2. Specify the message to be displayed when clients connect to this SSID. 
+
+# ip admission consent-banner text %
+                                    ======= WELCOME ======
                                    Message to be displayed to clients
                                                           .........
                                                           .........
