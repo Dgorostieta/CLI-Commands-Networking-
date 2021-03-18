@@ -1,7 +1,4 @@
-SCLFPAP114#show running-config
-Building configuration...
-
-Current configuration : 3571 bytes
+Current configuration : 5218 bytes
 !
 version 12.4
 no service pad
@@ -9,7 +6,7 @@ service timestamps debug datetime msec
 service timestamps log datetime msec
 service password-encryption
 !
-hostname SCLFPAP114
+hostname SCLFPAP118
 !
 logging rate-limit console 9
 !
@@ -20,44 +17,39 @@ aaa authentication login default local
 aaa authorization exec default local
 !
 aaa session-id common
-no ip domain lookup
 !
 !
 dot11 syslog
-dot11 vlan-name CONFERENCE vlan 1024
+dot11 vlan-name MarriottBonvoy vlan 1000
+dot11 vlan-name MarriottBonvoy_Conference vlan 1025
+dot11 vlan-name office vlan 805
+dot11 vlan-name oficina vlan 451
 dot11 vlan-name vlan100 vlan 100
-dot11 vlan-name vlan1000 vlan 1000
 !
-dot11 ssid FourPoint_CONFERENCE
-   vlan 1025
+dot11 ssid FourPoints_Office
+   vlan 805
    authentication open
-   mobility network-id 1025
-!
-dot11 ssid FourPoints_GUEST
-   vlan 1000
-   authentication open
+   authentication key-management wpa
    guest-mode
+   wpa-psk ascii 7 1351273D22223019140B0E151C0136
 !
-dot11 network-map
 !
 !
-username n1mbu5 privilege 15 secret 5 $1$XisF$dllFrugiImmsfvjxjX/HE/
+username n1mbu5 privilege 15 secret 5 $1$HCol$AgZ3emNBsNrVvUGTBNsn/0
 !
 !
 bridge irb
 !
 !
 interface Dot11Radio0
- description Radio
  no ip address
  no ip route-cache
  !
- ssid FourPoint_CONFERENCE
+ encryption vlan 805 mode ciphers aes-ccm tkip
  !
- ssid FourPoints_GUEST
+ ssid FourPoints_Office
  !
  antenna gain 0
- mbssid
  speed  basic-1.0 basic-2.0 basic-5.5 11.0 basic-6.0 basic-9.0 12.0 18.0 24.0 36.0 48.0 54.0 m0. m1. m2. m3. m4. m5. m6. m7. m8. m9. m10. m11. m12. m13. m14. m15.
  station-role root
  no dot11 extension aironet
@@ -72,18 +64,18 @@ interface Dot11Radio0.100
  no bridge-group 1 unicast-flooding
  bridge-group 1 spanning-disabled
 !
-interface Dot11Radio0.1000
- encapsulation dot1Q 1000
+interface Dot11Radio0.451
+ encapsulation dot1Q 451
  no ip route-cache
- bridge-group 255
- bridge-group 255 subscriber-loop-control
- bridge-group 255 block-unknown-source
- no bridge-group 255 source-learning
- no bridge-group 255 unicast-flooding
- bridge-group 255 spanning-disabled
+ bridge-group 252
+ bridge-group 252 subscriber-loop-control
+ bridge-group 252 block-unknown-source
+ no bridge-group 252 source-learning
+ no bridge-group 252 unicast-flooding
+ bridge-group 252 spanning-disabled
 !
-interface Dot11Radio0.1025
- encapsulation dot1Q 1025
+interface Dot11Radio0.805
+ encapsulation dot1Q 805
  no ip route-cache
  bridge-group 253
  bridge-group 253 subscriber-loop-control
@@ -92,13 +84,14 @@ interface Dot11Radio0.1025
  no bridge-group 253 unicast-flooding
  bridge-group 253 spanning-disabled
 !
+
 interface Dot11Radio1
  description Radio
  no ip address
  no ip route-cache
  antenna gain 0
  dfs band 3 block
- speed  6.0 9.0 12.0 18.0 basic-24.0 basic-36.0 basic-48.0 basic-54.0 m0. m1. m2. m3. m4. m5. m6. m7. m8. m9. m10. m11. m12. m13. m14. m15.
+ speed  basic-6.0 9.0 basic-12.0 18.0 basic-24.0 36.0 48.0 54.0 m0. m1. m2. m3. m4. m5. m6.
  channel width 40-above
  channel dfs
  station-role root
@@ -110,8 +103,18 @@ interface Dot11Radio1
  no bridge-group 1 unicast-flooding
  bridge-group 1 spanning-disabled
 !
+interface Dot11Radio1.451
+ encapsulation dot1Q 451
+ no ip route-cache
+ bridge-group 252
+ bridge-group 252 subscriber-loop-control
+ bridge-group 252 block-unknown-source
+ no bridge-group 252 source-learning
+ no bridge-group 252 unicast-flooding
+ bridge-group 252 spanning-disabled
+!
+
 interface GigabitEthernet0
- description Piso 8 Norte
  no ip address
  no ip route-cache
  duplex full
@@ -125,23 +128,24 @@ interface GigabitEthernet0.100
  no bridge-group 1 source-learning
  bridge-group 1 spanning-disabled
 !
-interface GigabitEthernet0.1000
- encapsulation dot1Q 1000
+interface GigabitEthernet0.451
+ encapsulation dot1Q 451
  no ip route-cache
- bridge-group 255
- no bridge-group 255 source-learning
- bridge-group 255 spanning-disabled
+ bridge-group 252
+ no bridge-group 252 source-learning
+ bridge-group 252 spanning-disabled
 !
-interface GigabitEthernet0.1025
- encapsulation dot1Q 1025
+interface GigabitEthernet0.805
+ encapsulation dot1Q 805
  no ip route-cache
  bridge-group 253
  no bridge-group 253 source-learning
  bridge-group 253 spanning-disabled
 !
+
+
 interface BVI1
- description IP ADMIN
- ip address 192.168.180.114 255.255.255.0
+ ip address 192.168.180.118 255.255.255.0
  no ip route-cache
 !
 ip default-gateway 192.168.180.1
@@ -155,8 +159,7 @@ bridge 1 route ip
 !
 !
 line con 0
- password 7 094A411C0B574743595D5679
 line vty 0 4
- password 7 13031807195E547B79757A60
+ password 7 121F0A0200595C55787A767B
 !
 end
