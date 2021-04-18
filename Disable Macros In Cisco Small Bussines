@@ -1,0 +1,5 @@
+macro auto disabled
+macro auto processing type ip_phone disabled
+macro auto processing type ip_phone_desktop disabled
+macro auto processing type switch disabled
+macro auto processing type ap disabled
