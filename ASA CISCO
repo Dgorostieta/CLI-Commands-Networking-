@@ -1,0 +1,13 @@
+same-security-traffic permit inter-interface
+
+same-security-traffic permit intra-interface
+
+aaa athentication secure-http-client 
+
+aaa athentication ssh
+
+http server enable
+
+ssh 0.0.0.0 0.0.0.0 inside 
+
+ssh 0.0.0.0 0.0.0.0 outside
