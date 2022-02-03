@@ -11,3 +11,7 @@ http server enable
 ssh 0.0.0.0 0.0.0.0 inside 
 
 ssh 0.0.0.0 0.0.0.0 outside
+
+objet-group protocol <name>
+protocol-obj tcp
+
