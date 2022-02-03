@@ -15,3 +15,6 @@ ssh 0.0.0.0 0.0.0.0 outside
 objet-group protocol <name>
 protocol-obj tcp
 
+object-group service sdns udp
+port-object eq 53
+
